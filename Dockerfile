@@ -15,6 +15,8 @@ RUN yum update -y \
         php73-xml \
         php73-json \
         php73-intl \
+        zip \
+        unzip \
     && yum clean all && yum history new
 
 RUN sed -e 's/127.0.0.1:9000/9000/' \
@@ -24,7 +26,10 @@ RUN sed -e 's/127.0.0.1:9000/9000/' \
         -i /etc/php-fpm.d/www.conf
         
 #fixes  ERROR: Unable to create the PID file (/run/php-fpm/php-fpm.pid).: No such file or directory (2)        
-RUN sed -e '/^pid/s//;pid/' -i /etc/php-fpm.conf        
+RUN sed -e '/^pid/s//;pid/' -i /etc/php-fpm.conf    
+
+#composer 1.10
+RUN curl -sS https://getcomposer.org/installer | php -- --version=1.10.17 --install-dir=/usr/local/bin --filename=composer
 
 CMD ["php-fpm", "-F"]
 
