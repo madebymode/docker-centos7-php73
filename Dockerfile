@@ -3,7 +3,9 @@ MAINTAINER madebymode
 
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN rpm -Uvh https://repo.ius.io/ius-release-el7.rpm
-# Update and install latest packages and prerequisites
+#php73 is archived
+RUN yum-config-manager --enable ius-archive
+
 RUN yum update -y \
     && yum install -y --nogpgcheck --setopt=tsflags=nodocs \
         php73-cli \
